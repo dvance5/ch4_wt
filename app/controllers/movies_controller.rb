@@ -17,9 +17,8 @@ class MoviesController < ApplicationController
   
   # in movies_controller.rb
   def create
-    params.require(:movie)
-    permitted = params[:movie].permit(:title,:rating,:release_date)
-    @movie = Movie.create!(permitted)
+    #@movie = Movie.create!(params[:movie]) #old way
+    @movie = Movie.create!(movie_params)  # new way
     flash[:notice] = "#{@movie.title} was successfully created."
     redirect_to movies_path
   end
@@ -30,11 +29,10 @@ class MoviesController < ApplicationController
     @movie = Movie.find params[:id]
   end
   
-  def update
+   def update
     @movie = Movie.find params[:id]
-    params.require(:movie)
-    permitted = params[:movie].permit(:title,:rating,:release_date)
-    @movie.update_attributes!(permitted)
+    #@movie.update_attributes!(params[:movie])  # old way
+    @movie.update_attributes!(movie_params)  # new way  
     flash[:notice] = "#{@movie.title} was successfully updated."
     redirect_to movie_path(@movie)
   end
